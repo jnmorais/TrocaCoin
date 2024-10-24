@@ -1,0 +1,55 @@
+.listagem-moedas {
+    margin: 20px;
+    
+    h4 {
+      text-align: center;
+      color: #3f51b5; 
+      font-weight: 600;
+    }
+  
+    .campo-busca {
+      width: 300px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+  
+      mat-form-field {
+        width: 100%;
+      }
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 15px; 
+  
+      th {
+        background-color: #3f51b5;
+        color: white;
+        font-weight: bold;
+      }
+  
+      td {
+        padding: 10px;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+      }
+  
+      tr.mat-header-row {
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+      }
+  
+      tr.mat-row {
+        &:hover {
+          background-color: #e0f7fa; 
+        }
+      }
+    }
+  
+    .mat-paginator {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+  }
+  

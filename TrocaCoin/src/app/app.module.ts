@@ -12,12 +12,14 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { NavComponent } from './component/nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrincipalComponent,
-    ListagemMoedasComponent
+    ListagemMoedasComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,

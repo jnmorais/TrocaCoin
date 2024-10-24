@@ -4,7 +4,8 @@ import { PrincipalComponent } from './pages/principal/principal.component';
 import { ListagemMoedasComponent } from './pages/listagem-moedas/listagem-moedas.component';
 
 const routes: Routes = [
-  {path: '', component: PrincipalComponent},
+  {path: '', redirectTo: 'pagina-principal', pathMatch: 'full'},
+  {path: 'pagina-principal', component: PrincipalComponent},
   {path: 'listagem-moedas',component: ListagemMoedasComponent},
 ];
 

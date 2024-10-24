@@ -1,0 +1,17 @@
+.navbar-logo {
+    height: auto;
+    width: 92px; 
+    margin-right: 10px; 
+  }
+  .stylenav{
+    background-color:#00214a;
+  }
+  .custom-navbar .navbar-brand,
+.stylenav .nav-link {
+  color:rgba(0, 0, 0, 0.942); /* Cor do texto que você deseja aplicar */
+}
+.custom-navbar .navbar-brand,
+.stylenav .nav-link:hover{
+    color: white;
+}
+ 
