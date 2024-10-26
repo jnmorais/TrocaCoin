@@ -22,13 +22,12 @@ export class ConversorService {
 
   listarMoedas(): Observable <IMoedaResponse>{
     let url = environment.api_url
-  const options = this.getHeaders();
-  return this.http.get<IMoedaResponse>(url,options);
+    const options = this.getHeaders();
+    return this.http.get<IMoedaResponse>(url,options);
   }
-
-  converterMoedas(moedaOrigem: string, moedaDestino: string, valor: number): Observable<IMoedaResponse>{
-    const url = `${environment.api_url}/pair/${moedaOrigem}/${moedaDestino}/${valor}`;
-    return this.http.get<IMoedaResponse>(url, this.getHeaders())
+  converterMoedas(moedaOrigem: string, moedaDestino: string, valor: number): Observable<IMoedaResponse> {
+    let url = environment.api_url
+    return this.http.get<IMoedaResponse>(url);
   }
 
 }

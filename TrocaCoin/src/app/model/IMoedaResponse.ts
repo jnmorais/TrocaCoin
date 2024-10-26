@@ -10,4 +10,5 @@ export interface IMoedaResponse {
     conversion_rates: { [key: string]: number };
     taxa_conversao?: number;
     valor_convetido?: number; 
+    conversion_rate: number;
 }

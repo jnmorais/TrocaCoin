@@ -29,8 +29,8 @@ export class ConversorMoedasComponent implements OnInit {
       .subscribe({
         next: (response) => {
           console.log('Resposta da API:', response);
-          this.valorConvertido = parseFloat(response.result);
           this.taxaConversao = response.conversion_rates[this.moedaDestino];
+          this.valorConvertido = this.valor * this.taxaConversao;
           this.exibirResultado = true;
         },
         error: (error) => {
@@ -50,14 +50,14 @@ export class ConversorMoedasComponent implements OnInit {
         for (const key in response.conversion_rates) {
           this.moedas.push({
             moeda: key,
-            taxa: response.conversion_rates[key]
+            taxa: response.conversion_rates[key],
           });
         }
       },
       error: (error) => {
         console.error('Erro ao carregar moedas', error);
         alert('Erro ao carregar a lista de moedas.');
-      }
+      },
     });
   }
 }
