@@ -1,190 +1,63 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { IMoeda } from '../../model/IMoeda';
+import { ListagemService } from './Listagem.service';
 
 @Component({
   selector: 'app-listagem-moedas',
   templateUrl: './listagem-moedas.component.html',
   styleUrls: ['./listagem-moedas.component.scss']
 })
-export class ListagemMoedasComponent implements OnInit {
-  dataSource = new MatTableDataSource<any>([]);  
-  colunasExibidas: string[] = ['codigo', 'nome', 'taxa']; 
-
+export class ListagemMoedasComponent implements OnInit, AfterViewInit {
   
-  moedas = [
-    { codigo: 'USD', nome: 'Dólar Americano', taxa: 5.23 },
-    { codigo: 'EUR', nome: 'Euro', taxa: 6.18 },
-    { codigo: 'BRL', nome: 'Real Brasileiro', taxa: 1.00 },
-    { codigo: 'AED', nome: 'Dirham dos Emirados Árabes Unidos', taxa: 3.67 },
-    { codigo: 'AFN', nome: 'Afgani Afegão', taxa: 86.50 },
-    { codigo: 'ALL', nome: 'Lek Albanês', taxa: 104.45 },
-    { codigo: 'AMD', nome: 'Drácula Armênio', taxa: 384.23 },
-    { codigo: 'ANG', nome: 'Florim das Antilhas Holandesas', taxa: 1.81 },
-    { codigo: 'AOA', nome: 'Kwanza Angolano', taxa: 4194.00},
-    { codigo: 'ARS', nome: 'Peso Argentino', taxa: 228.00 },
-    { codigo: 'AUD', nome: 'Dólar Australiano', taxa: 1.57 },
-    { codigo: 'AWG', nome: 'Florim Arubano', taxa: 1.81 },
-    { codigo: 'AZN', nome: 'Manat Azeri', taxa: 1.70 },
-    { codigo: 'BAM', nome: 'Marco Conversível Bósnio', taxa: 1.13 },
-    { codigo: 'BBD', nome: 'Dólar Barbadense', taxa: 2.00 },
-    { codigo: 'BDT', nome: 'Taka de Bangladesh', taxa: 109.26 },
-    { codigo: 'BGN', nome: 'Lev Búlgaro', taxa: 3.09 },
-    { codigo: 'BHD', nome: 'Dinar do Bahrein', taxa: 0.38 },
-    { codigo: 'BIF', nome: 'Franco Burundense', taxa: 2157.00 },
-    { codigo: 'BMD', nome: 'Dólar de Bermudas', taxa: 1.00 },
-    { codigo: 'BND', nome: 'Dólar de Brunei', taxa: 1.36 },
-    { codigo: 'BOB', nome: 'Boliviano', taxa: 6.92 },
-    { codigo: 'BSD', nome: 'Dólar das Bahamas', taxa: 1.00 },
-    { codigo: 'BTN', nome: 'Ngultrum do Butão', taxa: 83.90 },
-    { codigo: 'BWP', nome: 'Pula Botswana', taxa: 13.84 },
-    { codigo: 'BYN', nome: 'Rublo Bielorrusso', taxa: 2.71 },
-    { codigo: 'BZD', nome: 'Dólar de Belize', taxa: 2.00 },
-    { codigo: 'CAD', nome: 'Dólar Canadense', taxa: 4.27 },
-    { codigo: 'CDF', nome: 'Franco Congolês', taxa: 2075.00 },
-    { codigo: 'CHE', nome: 'Euro WIR', taxa: 6.18 },
-    { codigo: 'CHF', nome: 'Franco Suíço', taxa: 5.74 },
-    { codigo: 'CLP', nome: 'Peso Chileno', taxa: 4235.00 },
-    { codigo: 'CNY', nome: 'Yuan Renminbi Chinês', taxa: 16.87 },
-    { codigo: 'COP', nome: 'Peso Colombiano', taxa: 4121.00 },
-    { codigo: 'CRC', nome: 'Colón Costarriquenho', taxa: 2771.00 },
-    { codigo: 'CUP', nome: 'Peso Cubano', taxa: 24.00 },
-    { codigo: 'CVE', nome: 'Escudo Caboverdiano', taxa: 100.00 },
-    { codigo: 'CZK', nome: 'Coroa Checa', taxa: 134.18 },
-    { codigo: 'DJF', nome: 'Franco Djibutiano', taxa: 177.00 },
-    { codigo: 'DKK', nome: 'Coroa Dinamarquesa', taxa: 7.50 },
-    { codigo: 'DOP', nome: 'Peso Dominicano', taxa: 55.58 },
-    { codigo: 'DZD', nome: 'Dinar Argelino', taxa: 136.99 },
-    { codigo: 'EGP', nome: 'Libra Egípcia', taxa: 30.90 },
-    { codigo: 'ERN', nome: 'Nakfa da Eritreia', taxa: 15.00 },
-    { codigo: 'ETB', nome: 'Birr Etíope', taxa: 53.80 },
-    { codigo: 'FJD', nome: 'Dólar de Fiji', taxa: 2.32 },
-    { codigo: 'FKP', nome: 'Libra das Ilhas Falkland', taxa: 0.76 },
-    { codigo: 'GBP', nome: 'Libra Esterlina', taxa: 5.89 },
-    { codigo: 'GEL', nome: 'Lari Georgiano', taxa: 2.53 },
-    { codigo: 'GHS', nome: 'Cedi Ganês', taxa: 54.59 },
-    { codigo: 'GIP', nome: 'Libra de Gibraltar', taxa: 0.76 },
-    { codigo: 'GMD', nome: 'Dalasi Gambiano', taxa: 59.20 },
-    { codigo: 'GNF', nome: 'Franco Guineense', taxa: 8720.00 },
-    { codigo: 'GTQ', nome: 'Quetzal Guatemalteco', taxa: 7.85 },
-    { codigo: 'GYD', nome: 'Dólar Guianense', taxa: 210.00 },
-    { codigo: 'HKD', nome: 'Dólar de Hong Kong', taxa: 7.85 },
-    { codigo: 'HNL', nome: 'Lempira Hondurenha', taxa: 24.71 },
-    { codigo: 'HRK', nome: 'Kuna Croata', taxa: 46.66 },
-    { codigo: 'HTG', nome: 'Gourde Haitiana', taxa: 142.42 },
-    { codigo: 'HUF', nome: 'Forint Húngaro', taxa: 1794.00 },
-    { codigo: 'IDR', nome: 'Rúpia Indonésia', taxa: 16530.00 },
-    { codigo: 'ILS', nome: 'Shekel Novo Israelense', taxa: 4.09 },
-    { codigo: 'INR', nome: 'Rúpia Indiana', taxa: 276.84 },
-    { codigo: 'IQD', nome: 'Dinar Iraquiano', taxa: 1317.00 },
-    { codigo: 'IRR', nome: 'Rúpia Iraniana', taxa: 42000.00 },
-    { codigo: 'ISK', nome: 'Coroa Islandesa', taxa: 133.90 },
-    { codigo: 'JMD', nome: 'Dólar Jamaicano', taxa: 155.00 },
-    { codigo: 'JOD', nome: 'Dinar Jordaniano', taxa: 0.72 },
-    { codigo: 'JPY', nome: 'Iene Japonês', taxa: 144.32 },
-    { codigo: 'KES', nome: 'Xelim Queniano', taxa: 137.52 },
-    { codigo: 'KGS', nome: 'Som Quirguiz', taxa: 87.97 },
-    { codigo: 'KHR', nome: 'Riel Cambojano', taxa: 4086.00 },
-    { codigo: 'KPW', nome: 'Won Norte-Coreano', taxa: 900.00 },
-    { codigo: 'KRW', nome: 'Won Sul-Coreano', taxa: 1366.00 },
-    { codigo: 'KWD', nome: 'Dinar Kuaitiano', taxa: 0.31 },
-    { codigo: 'KYD', nome: 'Dólar das Ilhas Cayman', taxa: 0.83 },
-    { codigo: 'KZT', nome: 'Tenge Cazaque', taxa: 464.80 },
-    { codigo: 'LAK', nome: 'Kip Lao', taxa: 18820.00 },
-    { codigo: 'LBP', nome: 'Libra Libanesa', taxa: 37000.00 },
-    { codigo: 'LKR', nome: 'Rúpia do Sri Lanka', taxa: 150.00 },
-    { codigo: 'LRD', nome: 'Dólar Liberiano', taxa: 15.00 },
-    { codigo: 'LSL', nome: 'Loti Lesotiano', taxa: 18.48 },
-    { codigo: 'LYD', nome: 'Dinar Líbio', taxa: 4.85 },
-    { codigo: 'MAD', nome: 'Dirham Marroquino', taxa: 11.60 },
-    { codigo: 'MDL', nome: 'Leu Moldavo', taxa: 18.10 },
-    { codigo: 'MGA', nome: 'Ariary Malgaxe', taxa: 4589.00 },
-    { codigo: 'MKD', nome: 'Denar Macedônio', taxa: 3.70 },
-    { codigo: 'MMK', nome: 'Kyat de Mianmar', taxa: 2660.00 },
-    { codigo: 'MNT', nome: 'Tugrik Mongol', taxa: 3586.00 },
-    { codigo: 'MRU', nome: 'Ouguiya Mauritano', taxa: 36.16 },
-    { codigo: 'MUR', nome: 'Rúpia Mauriciana', taxa: 44.50 },
-    { codigo: 'MVR', nome: 'Rúpia Maldivense', taxa: 15.50 },
-    { codigo: 'MWK', nome: 'Kwacha Malawiano', taxa: 1035.00 },
-    { codigo: 'MXN', nome: 'Peso Mexicano', taxa: 94.00 },
-    { codigo: 'MYR', nome: 'Ringgit Malaio', taxa: 4.69 },
-    { codigo: 'MZN', nome: 'Metical Moçambicano', taxa: 63.50 },
-    { codigo: 'NAD', nome: 'Dólar Namíbio', taxa: 18.48 },
-    { codigo: 'NGN', nome: 'Naira Nigeriana', taxa: 774.00 },
-    { codigo: 'NIO', nome: 'Córdobas Nicaraguense', taxa: 35.00 },
-    { codigo: 'NOK', nome: 'Coroa Norueguesa', taxa: 55.00 },
-    { codigo: 'NPR', nome: 'Rúpia Nepalesa', taxa: 33.00 },
-    { codigo: 'NZD', nome: 'Dólar Neozelandês', taxa: 1.66 },
-    { codigo: 'OMR', nome: 'Rial Omanense', taxa: 0.38 },
-    { codigo: 'PAB', nome: 'Balboa Panamenho', taxa: 1.00 },
-    { codigo: 'PEN', nome: 'Sol Peruano', taxa: 3.67 },
-    { codigo: 'PGK', nome: 'Kina da Papua Nova Guiné', taxa: 3.65 },
-    { codigo: 'PHP', nome: 'Peso Filipino', taxa: 56.00 },
-    { codigo: 'PKR', nome: 'Rúpia Paquistanesa', taxa: 278.50 },
-    { codigo: 'PLN', nome: 'Zloty Polonês', taxa: 26.89 },
-    { codigo: 'PYG', nome: 'Guarani Paraguaio', taxa: 706.00 },
-    { codigo: 'QAR', nome: 'Rial Catarense', taxa: 3.64 },
-    { codigo: 'RON', nome: 'Leu Romeno', taxa: 27.27 },
-    { codigo: 'RSD', nome: 'Dinar Sérvio', taxa: 72.80 },
-    { codigo: 'RUB', nome: 'Rublo Russo', taxa: 95.50 },
-    { codigo: 'RWF', nome: 'Franco Ruandense', taxa: 1120.00 },
-    { codigo: 'SAR', nome: 'Riyal Saudita', taxa: 3.75 },
-    { codigo: 'SBD', nome: 'Dólar das Ilhas Salomão', taxa: 8.00 },
-    { codigo: 'SCR', nome: 'Rúpia das Seicheles', taxa: 14.00 },
-    { codigo: 'SDG', nome: 'Libra Sudanesa', taxa: 30.00 },
-    { codigo: 'SEK', nome: 'Coroa Sueca', taxa: 56.00 },
-    { codigo: 'SGD', nome: 'Dólar de Singapura', taxa: 1.37 },
-    { codigo: 'SHP', nome: 'Libra de Santa Helena', taxa: 0.76 },
-    { codigo: 'SLL', nome: 'Leone Serra-Leonense', taxa: 19614.00 },
-    { codigo: 'SOS', nome: 'Xelim Somaliano', taxa: 2328.00 },
-    { codigo: 'SRD', nome: 'Dólar Surinamense', taxa: 36.50 },
-    { codigo: 'SSP', nome: 'Libra Sul-Sudanesa', taxa: 1000.00 },
-    { codigo: 'STN', nome: 'Dobra de São Tomé e Príncipe', taxa: 23.00 },
-    { codigo: 'SYP', nome: 'Libra Síria', taxa: 2500.00 },
-    { codigo: 'SZL', nome: 'Lilangeni Suazi', taxa: 19.00 },
-    { codigo: 'THB', nome: 'Baht Tailandês', taxa: 34.00 },
-    { codigo: 'TJS', nome: 'Somoni Tajique', taxa: 11.00 },
-    { codigo: 'TMT', nome: 'Manat Turcomeno', taxa: 3.50 },
-    { codigo: 'TND', nome: 'Dinar Tunisiano', taxa: 3.08 },
-    { codigo: 'TOP', nome: 'Paʻanga de Tonga', taxa: 2.32 },
-    { codigo: 'TRY', nome: 'Lira Turca', taxa: 28.00 },
-    { codigo: 'TTD', nome: 'Dólar de Trinidad e Tobago', taxa: 6.76 },
-    { codigo: 'TWD', nome: 'Dólar de Taiwan', taxa: 32.25 },
-    { codigo: 'TZS', nome: 'Xelim Tanzaniano', taxa: 2330.00 },
-    { codigo: 'UAH', nome: 'Grivna Ucraniana', taxa: 36.89 },
-    { codigo: 'UGX', nome: 'Xelim Ugandense', taxa: 3750.00 },
-    { codigo: 'UYU', nome: 'Peso Uruguaio', taxa: 21.90 },
-    { codigo: 'UZS', nome: 'Som Uzbeque', taxa: 11222.00 },
-    { codigo: 'VEF', nome: 'Bolívar Venezuelano', taxa: 6000000.00 },
-    { codigo: 'VND', nome: 'Dong Vietnamita', taxa: 24000.00 },
-    { codigo: 'VUV', nome: 'Vatu de Vanuatu', taxa: 115.00 },
-    { codigo: 'WST', nome: 'Tala de Samoa', taxa: 2.61 },
-    { codigo: 'XAF', nome: 'Franco CFA da África Central', taxa: 620.00 },
-    { codigo: 'XAG', nome: 'Prata', taxa: 0.0413 },
-    { codigo: 'XAU', nome: 'Ouro', taxa: 0.00051 },
-    { codigo: 'XCD', nome: 'Dólar do Caribe Oriental', taxa: 2.70 },
-    { codigo: 'XOF', nome: 'Franco CFA da África Ocidental', taxa: 620.00 },
-    { codigo: 'XPF', nome: 'Franco CFP', taxa: 120.00 },
-    { codigo: 'YER', nome: 'Rial Iemenita', taxa: 250.00 },
-    { codigo: 'ZAR', nome: 'Rand Sul-Africano', taxa: 94.50 },
-    { codigo: 'ZMW', nome: 'Kwacha Zambiano', taxa: 50.00 },
-    { codigo: 'ZWL', nome: 'Dólar do Zimbábue', taxa: 37.50 }
-  
-  ];
 
+  colunasExibidas: string[] = ['codigo', 'taxa'];
+ 
+  dataSource = new MatTableDataSource<IMoeda>();
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit() {
-    this.dataSource.data = this.moedas;  
+  isError: boolean = false;
+
+  constructor(private listagemService: ListagemService) {}
+
+  ngOnInit(): void {
+    this.listagemService.listarMoedas().subscribe({
+      next: (res) => {
+        console.log('Resposta da API:', res);
+        
+       
+        const moeda: IMoeda[] = Object.entries(res.conversion_rates).map(([moeda, taxa]) => ({
+          moeda: moeda,
+          taxa: taxa
+        }));
+        
+        this.dataSource.data = moeda;
+        console.log('DataSource após transformação:', this.dataSource.data);
+      },
+      error: (er) => {
+        console.error('Erro na API:', er);
+        this.isError = true;
+      },
+      complete: () => {
+        this.isError = false;
+        console.log("Completou");
+      }
+    });
+  }
+
+  ngAfterViewInit() {
+    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   aplicarFiltro(event: Event) {
-    const filtroValor = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filtroValor.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();

@@ -13,7 +13,7 @@ interface RespostaTaxas {
   proxima_atualizacao_unix: number;
   proxima_atualizacao_utc: string;
   codigo_base: string;
-  taxas_de_conversao: { [chave: string]: number };
+  taxas_de_conversao: { [key: string]: number };
 }
 
 interface Moeda {
