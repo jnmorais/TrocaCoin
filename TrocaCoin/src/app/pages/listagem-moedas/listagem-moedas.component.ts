@@ -47,6 +47,7 @@ export class ListagemMoedasComponent implements OnInit, AfterViewInit {
         console.log("Completou");
       }
     });
+    
   }
 
   ngAfterViewInit() {
@@ -63,4 +64,5 @@ export class ListagemMoedasComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  
 }

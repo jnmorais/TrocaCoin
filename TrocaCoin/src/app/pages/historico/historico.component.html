@@ -1,0 +1,41 @@
+
+<div class="container mt-4">
+  <h2>Histórico de Conversões</h2>
+  
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Valor Original</th>
+          <th>Moeda Origem</th>
+          <th>Valor Convertido</th>
+          <th>Moeda Destino</th>
+          <th>Taxa</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let conversao of historicoConversoes">
+          <td>{{ conversao.data | date:'dd/MM/yyyy' }}</td>
+          <td>{{ conversao.hora }}</td>
+          <td>{{ conversao.valorOrigem | number:'1.2-2' }}</td>
+          <td>{{ conversao.moedaOrigem }}</td>
+          <td>{{ conversao.valorDestino | number:'1.2-2' }}</td>
+          <td>{{ conversao.moedaDestino }}</td>
+          <td>{{ conversao.taxaConversao | number:'1.4-4' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="excluirConversao(conversao.id)">
+              Excluir
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="historicoConversoes.length === 0" class="alert alert-info">
+    Nenhuma conversão encontrada.
+  </div>
+</div>

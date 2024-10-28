@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ConversorService } from './conversor.service';
 import { IMoeda } from '../../model/IMoeda';
+import { HistoricoService } from '../../services/IHistorico.service';
 
 @Component({
   selector: 'app-conversor-moedas',
@@ -16,32 +18,57 @@ export class ConversorMoedasComponent implements OnInit {
   taxaConversao: number = 0;
   exibirResultado: boolean = false;
 
-  constructor(private conversorService: ConversorService) {}
+  constructor(
+    private conversorService: ConversorService,
+    private historicoService: HistoricoService,
+    private toastr: ToastrService
+  ) {}
 
   converter() {
     if (!this.moedaOrigem || !this.moedaDestino || !this.valor) {
-      alert('Por favor, preencha todos os campos');
+      this.toastr.warning('Por favor, preencha todos os campos');
       return;
     }
-
+    if (this.moedaOrigem === this.moedaDestino) {
+      this.toastr.warning('Não é possível converter moedas iguais');
+      return;
+    }
     this.conversorService
       .converterMoedas(this.moedaOrigem, this.moedaDestino, this.valor)
       .subscribe({
         next: (response) => {
-          console.log('Resposta da API:', response);
-          this.taxaConversao = response.conversion_rates[this.moedaDestino];
-          this.valorConvertido = this.valor * this.taxaConversao;
+          const taxaOrigem = response.conversion_rates[this.moedaOrigem];
+          const taxaDestino = response.conversion_rates[this.moedaDestino];
+
+          this.taxaConversao = taxaDestino / taxaOrigem;
+          this.valorConvertido = this.valor / (taxaOrigem / taxaDestino);
           this.exibirResultado = true;
+
+          const agora = new Date();
+          this.historicoService.adicionarConversao({
+            data: agora,
+            hora: agora.toLocaleTimeString(),
+            valorOrigem: this.valor,
+            moedaOrigem: this.moedaOrigem,
+            valorDestino: this.valorConvertido,
+            moedaDestino: this.moedaDestino,
+            taxaConversao: this.taxaConversao
+          });
+
+          this.toastr.success('Conversão realizada com sucesso!');
         },
         error: (error) => {
           console.error('Erro na conversão', error);
-          alert('Erro ao realizar a conversão. Por favor, tente novamente.');
+          this.toastr.error('Erro ao realizar a conversão. Tente novamente.');
         },
       });
   }
 
   fecharResultado() {
     this.exibirResultado = false;
+    this.valor = 0;
+    this.moedaOrigem = '';
+    this.moedaDestino = '';
   }
 
   ngOnInit(): void {
@@ -53,10 +80,11 @@ export class ConversorMoedasComponent implements OnInit {
             taxa: response.conversion_rates[key],
           });
         }
+        
       },
       error: (error) => {
         console.error('Erro ao carregar moedas', error);
-        alert('Erro ao carregar a lista de moedas.');
+        this.toastr.error('Erro ao carregar a lista de moedas.');
       },
     });
   }

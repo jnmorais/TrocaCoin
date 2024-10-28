@@ -8,16 +8,27 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule,  MatPaginatorIntl } from '@angular/material/paginator';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { NavComponent } from './component/nav/nav.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ConversorMoedasComponent } from './pages/conversor-moedas/conversor-moedas.component';
 import { FormsModule } from '@angular/forms';
 import { getPtBRPaginatorIntl } from './ptbr-paginator-intl';
+import { HistoricoConversoesComponent } from './pages/historico/historico.component';
+import { ToastrModule, provideToastr } from 'ngx-toastr';
 
+const materialModules = [
+  MatFormFieldModule,
+  MatInputModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatToolbarModule,
+  MatButtonModule,
+];
 
 @NgModule({
   declarations: [
@@ -26,21 +37,30 @@ import { getPtBRPaginatorIntl } from './ptbr-paginator-intl';
     ListagemMoedasComponent,
     NavComponent,
     ConversorMoedasComponent,
+    HistoricoConversoesComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatToolbarModule,
-    MatButtonModule,
-    FormsModule
+    AppRoutingModule,
+    FormsModule,
+    ...materialModules,
+    ToastrModule.forRoot()
   ],
-  providers: [provideHttpClient(), provideAnimations(),{provide: MatPaginatorIntl, useValue: getPtBRPaginatorIntl()}],
+  providers: [
+    provideHttpClient(withFetch()),
+    provideAnimations(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      progressBar: true
+    }),
+    {
+      provide: MatPaginatorIntl, 
+      useValue: getPtBRPaginatorIntl()
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

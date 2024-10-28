@@ -1,45 +1,51 @@
 .principal-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  
-    h2 {
-      color: #333;
-      margin-bottom: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+
+  h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+
+    a:link {
+      color: green;
+      background-color: transparent;
+      text-decoration: none;
     }
-  
-    p {
-      line-height: 1.6;
-      margin-bottom: 10px;
-      a:link {
-        color: green;
-        background-color: transparent;
-        text-decoration: none;
-      }
-      a:visited {
-        color: rgb(0, 0, 0);
-        background-color: transparent;
-        
-      }
-      a:hover {
-        color: rgb(0, 26, 255);
-        background-color: transparent;
-      }
-      a:active {
-        color: yellow;
-        background-color: transparent;
-      }
+
+    a:visited {
+      color: rgb(0, 0, 0);
+      background-color: transparent;
+
     }
-    .trocaCoin{
-      width: 550px; 
-  height: auto; 
-  display: block;
-  margin: 10px auto; 
+
+    a:hover {
+      color: rgb(0, 26, 255);
+      background-color: transparent;
+    }
+
+    a:active {
+      color: yellow;
+      background-color: transparent;
     }
   }
-  mat-toolbar {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+
+  .trocaCoin {
+    width: 350px;
+    height: auto;
+    display: block;
+    margin: 10px auto;
   }
+}
+
+mat-toolbar {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
