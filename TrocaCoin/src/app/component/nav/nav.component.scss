@@ -1,17 +1,24 @@
 .navbar-logo {
-    height: auto;
-    width: 92px; 
-    margin-right: 10px; 
-  }
-  .stylenav{
-    background-color:#00214a;
-  }
-  .custom-navbar .navbar-brand,
+  height: 71px; 
+  width: auto; 
+  margin-right: 10px;
+  display: flex; 
+  align-items: center; 
+}
+
+.stylenav {
+  background-color: #00214a;
+  display: flex;
+  align-items: center; 
+  padding: 0.5rem 1rem; 
+}
+
+.custom-navbar .navbar-brand, 
 .stylenav .nav-link {
-  color:rgba(179, 175, 175, 0.942); 
+  color: rgba(179, 175, 175, 0.942);
+  display: flex;
+  align-items: center;
 }
-.custom-navbar .navbar-brand,
-.stylenav .nav-link:hover{
-    color: white;
-}
- 
+.custom-navbar .navbar-brand, 
+.stylenav .nav-link:hover{ 
+      color: white; }  
